@@ -15,7 +15,7 @@ RUN \
        libmagickwand-dev imagemagick perl netcat php-dev php-pear mcrypt pwgen \
        memcached tcl redis-server netcat openssl libpcre3 dnsmasq procps
 
-# setup imagick, mariadb, fix python
+# setup imagick, mariadb, fix python, add php repo
 RUN \
     dpkg --configure -a \
     && cd /tmp \
@@ -24,8 +24,6 @@ RUN \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
-
-# add php repo
     && apt-add-repository -y ppa:ondrej/php \
 
 # getting golang
