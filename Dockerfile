@@ -36,7 +36,7 @@ RUN \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
 
 # fix dotnet
-    && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb
+    && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb \
     && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
 
 # add mariadb
