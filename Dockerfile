@@ -18,7 +18,7 @@ RUN \
        redis-server openssl libpcre3 dnsmasq procps ca-certificates \
 
 # dotnet deps
-       libc6 libcurl3 libgcc1 libgssapi-krb5-2 libicu52 liblttng-ust0 \
+       libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
        libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
 
     && dpkg --configure -a \
@@ -30,10 +30,20 @@ RUN \
 RUN \
     cd /tmp \
     && pecl install imagick \
+
+# fix python
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
+
+# fix dotnet
+    && curl -s -o /tmp/libicu52_52.1-8_amd64.deb https://launchpadlibrarian.net/201330288/libicu52_52.1-8_amd64.deb
+    && dpkg -i /tmp/libicu52_52.1-8_amd64.deb \
+
+# add mariadb
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
+
+# add php
     && apt-add-repository -y ppa:ondrej/php \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
