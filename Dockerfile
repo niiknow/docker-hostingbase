@@ -29,12 +29,6 @@ RUN \
     && apt-add-repository -y ppa:ondrej/php \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
-# getting golang
-    && cd /tmp \
-    && curl -s -o /tmp/go1.7.linux-amd64.tar.gz https://storage.googleapis.com/golang/go1.7.linux-amd64.tar.gz \
-    && tar -xf go1.7.linux-amd64.tar.gz \
-    && mv go /usr/local \
-
 # getting repos for dotnet, mongodb, java
     && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" \
         | sudo tee /etc/apt/sources.list.d/dotnetdev.list \
@@ -46,7 +40,6 @@ RUN \
 
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
-    && rm -rf /tmp/* \
 
     && apt-get update && apt-get -y upgrade \
 
@@ -57,13 +50,20 @@ RUN \
     && python get-pip.py \
     && pip install awscli \
 
+# getting golang, comment out to wait for 1.8 official release
+#    && cd /tmp \
+#    && curl -s -o /tmp/go1.8.linux-amd64.tar.gz https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz \
+#    && tar -xf go1.8.linux-amd64.tar.gz \
+#    && mv go /usr/local \
+
 # cleanup
+    && rm -rf /tmp/* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/oracle-jdk8-installer
 
 # define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle \
-    DEBIAN_FRONTEND teletype
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
+ENV DEBIAN_FRONTEND=teletype
 
 CMD ["/sbin/my_init"]
