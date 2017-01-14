@@ -36,8 +36,8 @@ RUN \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
 
 # fix dotnet
-    && curl -s -o /tmp/libicu52_52.1-8_amd64.deb https://launchpadlibrarian.net/201330288/libicu52_52.1-8_amd64.deb
-    && dpkg -i /tmp/libicu52_52.1-8_amd64.deb \
+    && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb
+    && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
 
 # add mariadb
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
