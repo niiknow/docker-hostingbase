@@ -9,11 +9,11 @@ ENV DEBIAN_FRONTEND noninteractive \
 RUN \
     apt-get -o Acquire::GzipIndexes=false update \
     && apt-get update && apt-get -y upgrade \
-    && apt-get -y install wget curl unzip nano vim rsync sudo tar git \
-       apt-utils software-properties-common build-essential \
-       python-dev python-pip libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev \
-       libmagickwand-dev imagemagick perl netcat php-dev php-pear mcrypt pwgen \
-       memcached tcl redis-server netcat openssl libpcre3 dnsmasq procps
+    && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https \
+       apt-utils software-properties-common build-essential python-dev python-pip tcl \
+       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev \
+       memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat \
+       redis-server openssl libpcre3 dnsmasq procps
 
 # setup imagick, mariadb, fix python, add php repo
 RUN \
@@ -32,6 +32,10 @@ RUN \
     && tar -xvf go1.7.linux-amd64.tar.gz \
     && mv go /usr/local \
 
+# getting dotnet
+#    && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
+#    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
+
 # setting up java, aws-cli, and mongodb tools
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
     && echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" \  
@@ -40,6 +44,7 @@ RUN \
     && add-apt-repository -y ppa:webupd8team/java \
     && apt-get update && apt-get -y upgrade \
     && apt-get -y install mongodb-org-tools oracle-java8-installer \
+#    && dotnet-dev-1.0.0-preview4-004233 \
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
     && pip install awscli \
