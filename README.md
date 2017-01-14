@@ -1,5 +1,5 @@
-# greedyubuntubase
-Image that has everything base off https://github.com/phusion/baseimage-docker
+# docker-hostingbase
+Based off https://github.com/phusion/baseimage-docker, this image contain latest runtime of various language and framework including: golang, java, python, and php.
 
 # LICENSE
 
