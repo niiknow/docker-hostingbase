@@ -50,7 +50,7 @@ RUN \
     && add-apt-repository -y ppa:webupd8team/java \
     && rm -rf /tmp/* \
 
-    apt-get update && apt-get -y upgrade \
+    && apt-get update && apt-get -y upgrade \
 
 # setting up dotnet, java, mongodb tools, and aws-cli
 #   && apt-get -y install dotnet-dev-1.0.0-preview4-004233 \
