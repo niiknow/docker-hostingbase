@@ -33,19 +33,23 @@ RUN \
     && tar -xvf go1.7.linux-amd64.tar.gz \
     && mv go /usr/local \
 
-# getting dotnet
-#    && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
+# getting repos for dotnet, mongodb, java
+#    && echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" \
+#        | sudo tee /etc/apt/sources.list.d/dotnetdev.list \
 #    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
 
-# setting up java, aws-cli, and mongodb tools
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
     && echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" \  
         | sudo tee /etc/apt/sources.list.d/mongodb-3.4.list \
+
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
+
     && apt-get update && apt-get -y upgrade \
-    && apt-get -y install mongodb-org-tools oracle-java8-installer \
-#    && dotnet-dev-1.0.0-preview4-004233 \
+
+# setting up dotnet, java, mongodb tools, and aws-cli
+#   && apt-get -y install dotnet-dev-1.0.0-preview4-004233 \
+    && apt-get -y install oracle-java8-installer mongodb-org-tools \
     && curl -O https://bootstrap.pypa.io/get-pip.py \
     && python get-pip.py \
     && pip install awscli \
