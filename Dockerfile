@@ -7,18 +7,19 @@ ENV DEBIAN_FRONTEND noninteractive \
 
 # start
 RUN \
-    apt-get -o Acquire::GzipIndexes=false update \
+    DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::GzipIndexes=false update \
     && apt-get update && apt-get -y upgrade \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https \
        apt-utils software-properties-common build-essential python-dev python-pip tcl \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev \
        memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat \
-       redis-server openssl libpcre3 dnsmasq procps
+       redis-server openssl libpcre3 dnsmasq procps \
+    && dpkg --configure -a \
+    && apt-get clean
 
 # setup imagick, mariadb, fix python, add php repo
 RUN \
-    dpkg --configure -a \
-    && cd /tmp \
+    DEBIAN_FRONTEND=noninteractive cd /tmp \
     && pecl install imagick \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
@@ -44,8 +45,10 @@ RUN \
 
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
+    && rm -rf /tmp/*
 
-    && apt-get update && apt-get -y upgrade \
+RUN \
+    DEBIAN_FRONTEND=noninteractive apt-get update && apt-get -y upgrade \
 
 # setting up dotnet, java, mongodb tools, and aws-cli
 #   && apt-get -y install dotnet-dev-1.0.0-preview4-004233 \
@@ -55,11 +58,12 @@ RUN \
     && pip install awscli \
 
 # cleanup
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /tmp/* \
     && rm -rf /var/cache/oracle-jdk8-installer
 
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+# define commonly used JAVA_HOME variable
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle \
+    DEBIAN_FRONTEND teletype
 
 CMD ["/sbin/my_init"]
