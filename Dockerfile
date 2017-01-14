@@ -15,10 +15,16 @@ RUN \
        apt-utils software-properties-common build-essential python-dev python-pip tcl \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev \
        memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat \
-       redis-server openssl libpcre3 dnsmasq procps \
+       redis-server openssl libpcre3 dnsmasq procps ca-certificates \
+
+# dotnet deps
+       libc6 libcurl3 libgcc1 libgssapi-krb5-2 libicu52 liblttng-ust0 \
+       libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
+
     && dpkg --configure -a \
-    && rm -f /core \
-    && apt-get clean
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /core
 
 # setup imagick, mariadb, fix python, add php repo
 RUN \
@@ -31,9 +37,7 @@ RUN \
     && apt-add-repository -y ppa:ondrej/php \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
-# getting repos for dotnet, mongodb, java
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893 \
-
+# getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
     && echo 'deb [arch=amd64] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse' \  
         | sudo tee /etc/apt/sources.list.d/mongodb-3.4.list \
