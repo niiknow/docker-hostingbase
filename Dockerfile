@@ -39,13 +39,13 @@ RUN \
     && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb \
     && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
 
+# add php
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    && apt-add-repository -y ppa:ondrej/php \
+
 # add mariadb
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
-
-# add php
-    && apt-add-repository -y ppa:ondrej/php \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
 # getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
@@ -67,7 +67,7 @@ RUN \
     && curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
 
 # getting golang, comment out to wait for 1.8 official release
 #    && cd /tmp \

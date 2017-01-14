@@ -1,5 +1,5 @@
 # docker-hostingbase
-Based off https://github.com/phusion/baseimage-docker, this image contain latest runtime of various language and framework including: java, python, and php.
+Based off https://github.com/phusion/baseimage-docker, this image contain latest runtime of various language and framework including: dotnet, java, python, and php.  Ideal base image for hosting panels.
 
 # LICENSE
 
