@@ -2,10 +2,8 @@ FROM phusion/baseimage
 
 MAINTAINER friends@niiknow.org
 
-ENV DEBIAN_FRONTEND noninteractive \
-    LANG en_US.UTF-8 \
-    LANGUAGE en_US.UTF-8 \
-    container docker
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 
 # start
 RUN \
