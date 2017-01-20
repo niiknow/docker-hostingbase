@@ -15,6 +15,7 @@ RUN \
        apt-utils software-properties-common build-essential python-dev python-pip tcl openssl libpcre3 dnsmasq \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps ca-certificates \
        memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat redis-server \
+       language-pack-en-base \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
