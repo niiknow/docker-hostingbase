@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM hyperknot/baseimage16
 
 MAINTAINER friends@niiknow.org
 
@@ -11,11 +11,10 @@ ENV DOTNET_DOWNLOAD_URL=https://dotnetcli.blob.core.windows.net/dotnet/release/1
 RUN \
     apt-get -o Acquire::GzipIndexes=false update \
     && apt-get update && apt-get -y upgrade \
-    && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https \
-       apt-utils software-properties-common build-essential python-dev python-pip tcl \
-       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev \
-       memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat \
-       redis-server openssl libpcre3 dnsmasq procps ca-certificates \
+    && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
+       apt-utils software-properties-common build-essential python-dev python-pip tcl openssl libpcre3 dnsmasq \
+       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps ca-certificates \
+       memcached imagemagick perl netcat php-dev php-pear mcrypt pwgen netcat redis-server \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
