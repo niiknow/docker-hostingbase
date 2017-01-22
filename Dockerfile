@@ -30,7 +30,7 @@ RUN \
     && dpkg --configure -a \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -f /core \
+    && rm -f /core
 
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
