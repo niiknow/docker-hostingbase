@@ -9,5 +9,4 @@ cd /tmp \
 	&& tar -zxf golang.tar.gz \
 	&& mv go /usr/local
 
-echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> ~/.profile
 echo -e "\n\GOROOT=/usr/local/go\nexport GOROOT\n" >> ~/.profile
