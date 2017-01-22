@@ -2,8 +2,6 @@ FROM hyperknot/baseimage16
 
 MAINTAINER friends@niiknow.org
 
-MAINTAINER friends@niiknow.org
-
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 ENV DOTNET_VERSION=1.1.0
