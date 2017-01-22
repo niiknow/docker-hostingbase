@@ -8,7 +8,8 @@ ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm containe
 ADD ./files /
 RUN \
     cd /tmp \
-    && bash /tmp/install/index.sh
+    && chmod +x /tmp/install/*.sh \
+    && /tmp/install/index.sh
 
 # define commonly used JAVA_HOME variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle

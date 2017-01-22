@@ -13,7 +13,7 @@ export container=docker
 
 # start
 apt-get -o Acquire::GzipIndexes=false update \
-    && apt-get update && apt-get -y upgrade \
+    && apt-get update && apt-get -y upgrade && apt-key update -y \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick perl netcat \
@@ -53,9 +53,9 @@ cd /tmp \
     && rm -rf /var/cache/oracle-jdk8-installer \
 
 # setting up aws-cli, dotnet, golang
-    && bash /tmp/install/awscli.sh \
-    && bash /tmp/install/dotnet.sh \
-    && bash /tmp/install/golang.sh \
+    && /tmp/install/awscli.sh \
+    && /tmp/install/dotnet.sh \
+    && /tmp/install/golang.sh \
     && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> ~/.profile \
 
 # cleanup
