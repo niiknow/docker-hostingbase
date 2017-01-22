@@ -43,6 +43,7 @@ RUN \
 # add php
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-add-repository -y ppa:ondrej/php \
+    && apt-add-repository -y ppa:pinepain/libv8-5.4 \
 
 # add mariadb
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
@@ -59,7 +60,7 @@ RUN \
     && apt-get update && apt-get -y upgrade \
 
 # setting up java, mongodb tools, and aws-cli
-    && apt-get -y install oracle-java8-installer memcached redis-server openvpn mongodb-org \
+    && apt-get -y install oracle-java8-installer memcached redis-server openvpn mongodb-org libv8-5.4-dev\
     && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
 
 # cleanup
