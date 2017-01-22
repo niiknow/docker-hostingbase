@@ -48,6 +48,8 @@ RUN \
 
 # add couchdb
     && add-apt-repository -y ppa:couchdb/stable \
+    && wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
+    dpkg -i couchbase-release-1.0-2-amd64.deb \
 
 # getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
