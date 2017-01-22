@@ -1,5 +1,12 @@
 #!/bin/sh
 #
+export DEBIAN_FRONTEND=noninteractive
+export LC_ALL=en_US.UTF-8 
+export LANG=en_US.UTF-8 
+export LANGUAGE=en_US.UTF-8 
+export TERM=xterm
+export container=docker
+
 DOTNET_VERSION=1.1.0
 DOTNET_DOWNLOAD_URL=https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-debian-x64.$DOTNET_VERSION.tar.gz
 
