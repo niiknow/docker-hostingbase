@@ -74,7 +74,7 @@ RUN \
     && cd /tmp \
     && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
     && tar -zxf golang.tar.gz \
-    && mv go /usr/local
+    && mv go /usr/local \
 
 # cleanup
     && rm -rf /tmp/* \
