@@ -50,7 +50,7 @@ cd /tmp \
 
 # install java, memcached:11211, redis-server:6739, openvpn:1194
     && apt-get install -y oracle-java8-installer memcached redis-server openvpn \
-    && rm -rf /var/cache/oracle-jdk8-installer
+    && rm -rf /var/cache/oracle-jdk8-installer \
 
 # setting up aws-cli, dotnet, golang
     && bash /tmp/install/awscli.sh \

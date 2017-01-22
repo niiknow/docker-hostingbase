@@ -15,4 +15,4 @@ apt-get install -y libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
 curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
