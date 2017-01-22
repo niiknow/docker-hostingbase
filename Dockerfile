@@ -8,11 +8,22 @@ ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm containe
 # start
 RUN \
     apt-get -o Acquire::GzipIndexes=false update \
+
+# couchbase deps
+    && cp /usr/bin/lsb_release /usr/bin/lsb_release.old \
+    && echo -e "#/bin/sh\necho 'xenial xenial'" > /usr/bin/lsb_release \
+    && chmod +x /usr/bin/lsb_release \
+    && wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
+    dpkg -i couchbase-release-1.0-2-amd64.deb \
+    && rm -f /usr/bin/lsb_release \
+    && ln -sf /usr/bin/lsb_release.old /usr/bin/lsb_release \
+
+# other deps
     && apt-get update && apt-get -y upgrade \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick perl netcat \
-       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp \
+       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libcouchbase-dev libcouchbase2-bin \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
@@ -21,7 +32,7 @@ RUN \
     && dpkg --configure -a \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && rm -f /core
+    && rm -f /core \
 
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
@@ -48,8 +59,6 @@ RUN \
 
 # add couchdb
     && add-apt-repository -y ppa:couchdb/stable \
-    && wget http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
-    dpkg -i couchbase-release-1.0-2-amd64.deb \
 
 # getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
