@@ -64,8 +64,14 @@ RUN \
     && python get-pip.py \
     && pip install awscli \
 
+# cleanup
+    && rm -rf /tmp/* \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /var/cache/oracle-jdk8-installer
+
 # setting up dotnet
-    && curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
+RUN curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
@@ -77,10 +83,7 @@ RUN \
     && mv go /usr/local \
 
 # cleanup
-    && rm -rf /tmp/* \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && rm -rf /var/cache/oracle-jdk8-installer
+    && rm -rf /tmp/*
 
 # define commonly used JAVA_HOME variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
