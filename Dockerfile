@@ -4,10 +4,6 @@ MAINTAINER friends@niiknow.org
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
-ENV DOTNET_VERSION=1.1.0
-ENV DOTNET_DOWNLOAD_URL=https://dotnetcli.blob.core.windows.net/dotnet/release/1.1.0/Binaries/$DOTNET_VERSION/dotnet-debian-x64.$DOTNET_VERSION.tar.gz
-ENV GOLANG_VERSION=1.7.4
-ENV GOLANG_DOWNLOAD_URL=https://storage.googleapis.com/golang/go$GOLANG_VERSION.linux-amd64.tar.gz
 
 # start
 RUN \
@@ -27,7 +23,8 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core
 
-# setup imagick, mariadb, fix python, add php repo
+# setup imagick is required early to support php package later
+# setup mariadb, fix python, add php repo
 RUN \
     cd /tmp \
     && pecl install imagick \
@@ -49,6 +46,9 @@ RUN \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
 
+# add couchdb
+    && add-apt-repository -y ppa:couchdb/stable \
+
 # getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
     && echo 'deb [arch=amd64] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse' \  
@@ -59,36 +59,17 @@ RUN \
 
     && apt-get update && apt-get -y upgrade \
 
-# setting up java, mongodb tools, and aws-cli
-    && apt-get -y install oracle-java8-installer memcached redis-server openvpn mongodb-org libv8-5.4-dev\
+# setting up java, mongodb tools, and nodejs
+    && apt-get -y install oracle-java8-installer libv8-5.4-dev\
     && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
+    && curl -sS https://getcomposer.org/installer | php -- --version=1.3.1 --install-dir=/usr/local/bin --filename=composer \
+    && curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
 
 # cleanup
     && rm -rf /tmp/* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/oracle-jdk8-installer
-
-# setting up dotnet
-RUN curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
-    && mkdir -p /usr/share/dotnet \
-    && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
-
-# aws cli
-    && curl -O https://bootstrap.pypa.io/get-pip.py \
-    && python get-pip.py \
-    && pip install awscli \
-
-# getting golang
-    && cd /tmp \
-    && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
-    && tar -zxf golang.tar.gz \
-    && mv go /usr/local \
-    && echo -e "\n\GOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile \
-
-# cleanup
-    && rm -rf /tmp/*
 
 ENV DEBIAN_FRONTEND=teletype
 
