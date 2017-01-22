@@ -10,7 +10,7 @@ RUN apt-get -o Acquire::GzipIndexes=false update \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick perl netcat \
-       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev libv8-dev libv8-dbg g++ cpp \
+       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev libv8-dev g++ cpp \
     && dpkg --configure -a
 
 ADD ./files /
