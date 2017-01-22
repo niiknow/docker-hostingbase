@@ -52,4 +52,6 @@ apt-get install -y oracle-java8-installer memcached redis-server openvpn \
 # cleanup
 rm -rf /tmp/* \
     && apt-get clean \
-    && rm -rf /core
+    && rm -rf /core \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
