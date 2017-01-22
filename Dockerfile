@@ -60,9 +60,7 @@ RUN \
 
 # setting up java, mongodb tools, and aws-cli
     && apt-get -y install oracle-java8-installer memcached redis-server openvpn mongodb-org \
-    && curl -O https://bootstrap.pypa.io/get-pip.py \
-    && python get-pip.py \
-    && pip install awscli \
+    && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
 
 # cleanup
     && rm -rf /tmp/* \
@@ -76,17 +74,21 @@ RUN curl -SL $DOTNET_DOWNLOAD_URL --output /tmp/dotnet.tar.gz \
     && tar -zxf /tmp/dotnet.tar.gz -C /usr/share/dotnet \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
 
+# aws cli
+    && curl -O https://bootstrap.pypa.io/get-pip.py \
+    && python get-pip.py \
+    && pip install awscli \
+
 # getting golang
     && cd /tmp \
     && curl -SL $GOLANG_DOWNLOAD_URL --output /tmp/golang.tar.gz \
     && tar -zxf golang.tar.gz \
     && mv go /usr/local \
+    && echo -e "\n\GOROOT=/usr/local/go\nexport GOROOT\n" >> /root/.profile \
 
 # cleanup
     && rm -rf /tmp/*
 
-# define commonly used JAVA_HOME variable
-ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
 ENV DEBIAN_FRONTEND=teletype
 
 CMD ["/sbin/my_init"]
