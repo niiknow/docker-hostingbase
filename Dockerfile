@@ -74,6 +74,8 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/oracle-jdk8-installer
 
+ADD ./files /
+
 ENV DEBIAN_FRONTEND=teletype
 
 CMD ["/sbin/my_init"]
