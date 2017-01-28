@@ -12,7 +12,7 @@ RUN \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat \
-       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp \
+       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
@@ -23,10 +23,13 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core
 
+ADD ./files /
+
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
 RUN \
     cd /tmp \
+    && chmod +x /etc/service/sshd/run \
     && pecl install imagick \
 
 # fix python
@@ -40,7 +43,6 @@ RUN \
 # add php
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-add-repository -y ppa:ondrej/php \
-    && apt-add-repository -y ppa:pinepain/libv8-5.4 \
     && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
     && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
 
@@ -62,19 +64,16 @@ RUN \
     && apt-get update && apt-get -y upgrade \
 
 # setting up java, mongodb tools, and nodejs
-    && apt-get -y install oracle-java8-installer libv8-5.4-dev --allow-unauthenticated \
+    && apt-get -y install oracle-java8-installer libcouchbase-dev --allow-unauthenticated \
     && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
-    && apt-get -y install --allow-unauthenticated libcouchbase-dev \
 
 # cleanup
     && rm -rf /tmp/* \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/oracle-jdk8-installer
-
-ADD ./files /
 
 ENV DEBIAN_FRONTEND=teletype
 
