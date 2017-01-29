@@ -6464,7 +6464,7 @@ b.InstallFunctions(c.prototype,2,[
 ]);
 })
 
-(typedarray–q
+(typedarrays
 (function(a,b){
 "use strict";
 %CheckIsBootstrapping();
@@ -8315,7 +8315,12 @@ return bw;
 }
 %FunctionSetLength(TypedArrayFrom,1);
 function TypedArrayConstructor(){
+if((new.target===(void 0))){
+throw %make_type_error(26,"TypedArray");
+}
+if(new.target===Q){
 throw %make_type_error(24,"TypedArray");
+}
 }
 function TypedArraySpecies(){
 return this;
