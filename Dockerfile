@@ -66,7 +66,7 @@ RUN \
 
 # setting up java, mongodb tools, and nodejs
     && apt-get -y install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
-    && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
+    && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
 
