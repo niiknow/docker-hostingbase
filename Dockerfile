@@ -44,6 +44,7 @@ RUN \
 # add php
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-add-repository -y ppa:ondrej/php \
+    && add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
     && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
 
@@ -65,7 +66,7 @@ RUN \
     && apt-get update && apt-get -y upgrade \
 
 # setting up java, mongodb tools, and nodejs
-    && apt-get -y install oracle-java8-installer libcouchbase-dev --allow-unauthenticated \
+    && apt-get -y install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
     && echo -e "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
