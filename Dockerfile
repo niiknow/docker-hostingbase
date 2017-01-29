@@ -30,7 +30,6 @@ ADD ./files /
 RUN \
     cd /tmp \
     && chmod +x /etc/service/sshd/run \
-    && cp -R /opt/v8/* /usr/ \
     && pecl install imagick \
 
 # fix python
