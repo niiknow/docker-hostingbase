@@ -1,6 +1,27 @@
 # docker-hostingbase
 Based off https://github.com/phusion/baseimage-docker, this image contain latest runtime of various language and framework including: dotnet, java, python, and php.  Ideal base image for hosting panels.
 
+## sshd
+For convienience, sshd is enabled by default.  Just don't expose the port if you don't want to use sshd.
+
+## php files
+1. precompiled v8js.so v0.6.4 for php5.6 and v1.3.3 for php7.0+
+2. pcs.so and couchbase.so
+3. precompiled imagick so you can add it later with phpX.X-imagick package
+4. composer
+
+## other runtimes
+1. oracle-java8-sdk
+2. nodejs 6.x
+3. .NET 1.1.0 required libraries
+
+## add repositories
+1. php
+2. mariadb
+3. mongodb
+4. couchbase and couchdb
+4. java
+
 # LICENSE
 
 The MIT License (MIT)
