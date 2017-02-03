@@ -12,7 +12,7 @@ RUN \
     && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat \
-       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev \
+       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
@@ -31,7 +31,8 @@ RUN \
     cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && pecl install imagick \
-
+    && echo 'root' >> /etc/incron.allow \
+    
 # fix python
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
