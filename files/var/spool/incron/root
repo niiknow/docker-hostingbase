@@ -1,0 +1,1 @@
+/etc/passwd IN_MODIFY bash /usr/bin/backup-creds.sh

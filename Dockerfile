@@ -18,6 +18,7 @@ RUN \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
        libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
 
+    && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
@@ -30,8 +31,8 @@ ADD ./files /
 RUN \
     cd /tmp \
     && chmod +x /etc/service/sshd/run \
+    && chmod +x /usr/bin/backup-creds.sh \
     && pecl install imagick \
-    && echo 'root' >> /etc/incron.allow \
     
 # fix python
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
@@ -78,5 +79,7 @@ RUN \
     && rm -rf /var/cache/oracle-jdk8-installer
 
 ENV DEBIAN_FRONTEND=teletype
+
+VOLUME ["/backup"]
 
 CMD ["/sbin/my_init"]
