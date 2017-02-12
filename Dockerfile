@@ -22,6 +22,11 @@ RUN \
     && dpkg --configure -a \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
+
+# re-enable all default services
+    && rm -f /etc/service/syslog-forwarder/down \
+    && rm -f /etc/service/cron/down \
+    && rm -f /etc/service/syslog-ng/down \
     && rm -f /core
 
 ADD ./files /

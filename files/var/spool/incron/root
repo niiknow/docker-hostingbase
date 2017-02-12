@@ -1,1 +1,4 @@
 /etc/passwd IN_MODIFY bash /usr/bin/backup-creds.sh
+/etc/shadow IN_MODIFY bash /usr/bin/backup-creds.sh
+/etc/group IN_MODIFY bash /usr/bin/backup-creds.sh
+/etc/gshadow IN_MODIFY bash /usr/bin/backup-creds.sh
