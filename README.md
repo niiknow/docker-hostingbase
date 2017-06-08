@@ -12,8 +12,8 @@ For convienience, sshd is enabled by default.  Just don't expose the port if you
 
 ## other runtimes
 1. oracle-java8-sdk
-2. nodejs 6.x
-3. .NET 1.1.0 required libraries
+2. nodejs 8.x
+3. .NET 1.1.2 required libraries
 
 ## add repositories
 1. php

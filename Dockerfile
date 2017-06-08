@@ -13,6 +13,7 @@ RUN \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat \
        php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron \
+       libpcre3-dev \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
@@ -75,7 +76,7 @@ RUN \
     && apt-get -y install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
     && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - \
+    && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
 
 # cleanup
     && rm -rf /tmp/* \
