@@ -2,14 +2,14 @@ FROM hyperknot/baseimage16:1.0.1
 
 MAINTAINER friends@niiknow.org
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
+ENV DEBIAN_FRONTEND=noninteractive \
+    LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 
 # start
 RUN \
     apt-get -o Acquire::GzipIndexes=false update \
-    && apt-get update && apt-get -y upgrade \
-    && apt-get -y install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
+    && apt-get update && apt-get -y --no-install-recommends upgrade \
+    && apt-get -y --no-install-recommends install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
        apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat \
        php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron \
@@ -70,16 +70,17 @@ RUN \
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
 
-    && apt-get update && apt-get -y upgrade \
+    && apt-get update && apt-get -y --no-install-recommends upgrade \
 
 # setting up java, mongodb tools, and nodejs
-    && apt-get -y install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
+    && apt-get -y --no-install-recommends install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
     && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
 
 # cleanup
     && rm -rf /tmp/* \
+    && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/oracle-jdk8-installer
