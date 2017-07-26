@@ -78,6 +78,9 @@ RUN \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
 
+# disable auto start services
+    && systemctl disable incron \
+
 # cleanup
     && rm -rf /tmp/* \
     && apt-get -y autoremove \
