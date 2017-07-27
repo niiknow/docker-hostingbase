@@ -19,16 +19,15 @@ RUN \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
        libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
 
+    && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
+    && rm -f /core \
 
 # re-enable all default services
-    && rm -f /etc/service/syslog-forwarder/down \
-    && rm -f /etc/service/cron/down \
-    && rm -f /etc/service/syslog-ng/down \
-    && rm -f /core
+    && find /etc/service/ -name "down" -exec rm -rf {} \;
 
 ADD ./files /
 
@@ -40,26 +39,29 @@ RUN \
     && chmod +x /usr/bin/backup-creds.sh \
     && pecl install imagick \
     
-# fix python
+# incrond is disabled by default, user should delete the down file after init
+    && chmod +x /etc/service/incrond/run \
+
+# fixes for python
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
 
-# fix dotnet
+# fixes for dotnet
     && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb \
     && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
 
-# add php
+# add php repo
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-add-repository -y ppa:ondrej/php \
     && add-apt-repository -y ppa:pinepain/libv8-5.4 \
     && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
     && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
 
-# add mariadb
+# add mariadb 10.1 repo
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
 
-# add couchdb
+# add couchdb repo
     && add-apt-repository -y ppa:couchdb/stable \
 
 # getting repos for mongodb, java
@@ -77,9 +79,6 @@ RUN \
     && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
-
-# disable auto start services
-    && systemctl disable incron \
 
 # cleanup
     && rm -rf /tmp/* \
