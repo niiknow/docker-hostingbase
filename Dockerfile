@@ -9,15 +9,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN \
     apt-get -o Acquire::GzipIndexes=false update \
     && apt-get update && apt-get -y --no-install-recommends upgrade \
-    && apt-get -y --no-install-recommends install wget curl unzip nano vim rsync sudo tar git apt-transport-https openssh-client openssh-server \
-       apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
-       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat \
-       php-dev php-pear mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron \
-       libpcre3-dev \
+    && apt-get -y --no-install-recommends install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
+       sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
+       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat php-dev php-pear \
+       mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libpcre3-dev \
 
 # dotnet deps
-       libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 \
-       libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
+       libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
 
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
@@ -29,7 +27,7 @@ RUN \
 # re-enable all default services
     && find /etc/service/ -name "down" -exec rm -rf {} \;
 
-ADD ./files /
+COPY rootfs/. /
 
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
