@@ -6,8 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 
 # start
-RUN \
-    apt-get -o Acquire::GzipIndexes=false update \
+RUN apt-get -o Acquire::GzipIndexes=false update \
     && apt-get update && apt-get -y --no-install-recommends upgrade \
     && apt-get -y --no-install-recommends install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
        sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
@@ -31,8 +30,7 @@ COPY rootfs/. /
 
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
-RUN \
-    cd /tmp \
+RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
     && pecl install imagick \
