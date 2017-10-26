@@ -11,6 +11,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
     && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
     && add-apt-repository -y ppa:couchdb/stable \
+    && apt-add-repository -y ppa:ondrej/php \
 
 # install
     && apt-get update && apt-get -y --no-install-recommends upgrade \
@@ -39,13 +40,12 @@ COPY rootfs/. /
 RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
-    && rm -f /usr/lib/php/20151012/{couchbase.so,pcs.so,v8js.so} \
     && rm -f /usr/lib/php/20160303/{couchbase.so,pcs.so,v8js.so} \
 
 # incrond is disabled by default, user should delete the down file after init
     && chmod +x /etc/service/incrond/run \
 
-# install for php 7.0
+# install for php 7.1
     && pecl install -f -a -l v8js-1.4.1 \
     && pecl install -f pcs-1.3.3 \
     && pecl install -f couchbase-2.4.1 \
@@ -70,20 +70,12 @@ RUN cd /tmp \
 
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
-    && apt-add-repository -y ppa:ondrej/php \
-    && apt-get remove -y php-pear && apt-get autoremove -y \
-    && rm -rf /tmp/pear/ \
+
     && apt-get update && apt-get -y --no-install-recommends upgrade \
 
 # setting up java, mongodb tools, and nodejs
-    && apt-get -y --no-install-recommends --allow-unauthenticated install oracle-java8-installer php-dev php-pear \
+    && apt-get -y --no-install-recommends --allow-unauthenticated install oracle-java8-installer \
     && dpkg --configure -a \
-
-# install for php 7.1
-    && pecl install -f -a -l v8js-1.4.1 \
-    && pecl install -f pcs-1.3.3 \
-    && pecl install -f couchbase-2.4.1 \
-    && pecl install -f imagick \
 
 # setup other things
     && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
