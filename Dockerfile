@@ -6,12 +6,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 
 # start
-RUN apt-get -o Acquire::GzipIndexes=false update \
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    && add-apt-repository -y ppa:pinepain/libv8-5.4  \
+    && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
+    && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
+    && add-apt-repository -y ppa:couchdb/stable \
+
+# install
     && apt-get update && apt-get -y --no-install-recommends upgrade \
-    && apt-get -y --no-install-recommends install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
-       sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates \
-       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat php-dev php-pear \
-       mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libpcre3-dev \
+    && apt-get -y --no-install-recommends --allow-unauthenticated install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
+       sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates libpcre3-dev \
+       libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat php-dev php-pear libv8-5.4-dev \
+       mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent  \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
@@ -33,10 +39,17 @@ COPY rootfs/. /
 RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
-    && pecl install imagick \
-    
+    && rm -f /usr/lib/php/20151012/{couchbase.so,pcs.so,v8js.so} \
+    && rm -f /usr/lib/php/20160303/{couchbase.so,pcs.so,v8js.so} \
+
 # incrond is disabled by default, user should delete the down file after init
     && chmod +x /etc/service/incrond/run \
+
+# install for php 7.0
+    && pecl install -f -a -l v8js-1.4.1 \
+    && pecl install -f pcs-1.3.3 \
+    && pecl install -f couchbase-2.4.1 \
+    && pecl install -f imagick \
 
 # fixes for python
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
@@ -46,19 +59,9 @@ RUN cd /tmp \
     && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb \
     && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
 
-# add php repo
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
-    && apt-add-repository -y ppa:ondrej/php \
-    && add-apt-repository -y ppa:pinepain/libv8-5.4 \
-    && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
-    && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
-
 # add mariadb 10.1 repo
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu xenial main' \
-
-# add couchdb repo
-    && add-apt-repository -y ppa:couchdb/stable \
 
 # getting repos for mongodb, java
     && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6 \
@@ -67,11 +70,22 @@ RUN cd /tmp \
 
     && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
     && add-apt-repository -y ppa:webupd8team/java \
-
+    && apt-add-repository -y ppa:ondrej/php \
+    && apt-get remove -y php-pear && apt-get autoremove -y \
+    && rm -rf /tmp/pear/ \
     && apt-get update && apt-get -y --no-install-recommends upgrade \
 
 # setting up java, mongodb tools, and nodejs
-    && apt-get -y --no-install-recommends install oracle-java8-installer libcouchbase-dev libv8-5.4 --allow-unauthenticated \
+    && apt-get -y --no-install-recommends --allow-unauthenticated install oracle-java8-installer php-dev php-pear \
+    && dpkg --configure -a \
+
+# install for php 7.1
+    && pecl install -f -a -l v8js-1.4.1 \
+    && pecl install -f pcs-1.3.3 \
+    && pecl install -f couchbase-2.4.1 \
+    && pecl install -f imagick \
+
+# setup other things
     && echo "\n\nJAVA_HOME=/usr/lib/jvm/java-8-oracle\nexport JAVA_HOME\n" >> /root/.profile \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - \
