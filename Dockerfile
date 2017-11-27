@@ -1,3 +1,21 @@
+FROM hyperknot/baseimage16:1.0.2  AS buildstep
+ENV DEBIAN_FRONTEND=noninteractive \
+    LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    && add-apt-repository -y ppa:pinepain/libv8-5.4  \
+    && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
+    && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
+    && add-apt-repository -y ppa:couchdb/stable \
+    && apt-get update && apt-get -y --no-install-recommends upgrade \
+    && apt-get -y --no-install-recommends --allow-unauthenticated install imagemagick php-dev php-pear \
+       pkg-config libv8-5.4-dev libmagickwand-dev libcouchbase-dev libcouchbase2-libevent\
+    && dpkg --configure -a \
+    && pecl install -f -a -l v8js-2.0.0 \
+    && pecl install -f pcs-1.3.3 \
+    && pecl install -f couchbase-2.4.2 \
+    && pecl install -f imagick \
+    rm -rf /tmp/*
+
 FROM hyperknot/baseimage16:1.0.2
 
 MAINTAINER friends@niiknow.org
@@ -18,7 +36,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-get -y --no-install-recommends --allow-unauthenticated install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
        sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates libpcre3-dev \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat php-dev php-pear libv8-5.4-dev \
-       mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent  \
+       mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent pkg-config \
 
 # dotnet deps
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
@@ -29,26 +47,28 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
+    && rm -rf /usr/lib/php/20151012/*.so \
 
 # re-enable all default services
     && find /etc/service/ -name "down" -exec rm -rf {} \;
 
 COPY rootfs/. /
 
+COPY --from=buildstep /usr/lib/php/20151012/*.so /usr/lib/php/20151012/
+
 # setup imagick is required early to support php package later
 # setup mariadb, fix python, add php repo
 RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
-    && rm -f /usr/lib/php/20160303/{couchbase.so,pcs.so,v8js.so} \
 
 # incrond is disabled by default, user should delete the down file after init
     && chmod +x /etc/service/incrond/run \
 
 # install for php 7.1
-    && pecl install -f -a -l v8js-1.4.1 \
+    && pecl install -f -a -l v8js-2.0.0 \
     && pecl install -f pcs-1.3.3 \
-    && pecl install -f couchbase-2.4.1 \
+    && pecl install -f couchbase-2.4.2 \
     && pecl install -f imagick \
 
 # fixes for python
