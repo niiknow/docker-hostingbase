@@ -3,8 +3,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && add-apt-repository -y ppa:pinepain/libv8-5.4  \
-    && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
-    && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
+    && curl -s -o /tmp/couchbase-release-1.0-4-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb \
+    && dpkg -i /tmp/couchbase-release-1.0-4-amd64.deb \
     && add-apt-repository -y ppa:couchdb/stable \
     && apt-get update && apt-get -y --no-install-recommends upgrade \
     && apt-get -y --no-install-recommends --allow-unauthenticated install imagemagick php-dev php-pear \
@@ -26,8 +26,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # start
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && add-apt-repository -y ppa:pinepain/libv8-5.4  \
-    && curl -s -o /tmp/couchbase-release-1.0-2-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-2-amd64.deb \
-    && dpkg -i /tmp/couchbase-release-1.0-2-amd64.deb \
+    && curl -s -o /tmp/couchbase-release-1.0-4-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb \
+    && dpkg -i /tmp/couchbase-release-1.0-4-amd64.deb \
     && add-apt-repository -y ppa:couchdb/stable \
     && apt-add-repository -y ppa:ondrej/php \
 
