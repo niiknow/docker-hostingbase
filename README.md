@@ -6,7 +6,7 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 
 ## php files
 1. precompiled v8js-0.6.4 for php5.6
-2. pecl install v8js-2.0.0 for php7.0+
+2. pecl install latest v8js for php7.0+
 3. pecl install pcs and couchbase for couchdb
 4. imagemagick lib for php-imagick support
 5. composer
