@@ -18,7 +18,7 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 
 ## add repositories
 1. php
-2. mariadb 10.1
+2. mariadb 10.2
 3. mongodb 3.4
 4. couchbase and couchdb
 4. java
