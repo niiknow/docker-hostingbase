@@ -6,7 +6,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 
 # start
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+RUN cd /tmp \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     && add-apt-repository -y ppa:pinepain/libv8-5.4  \
     && curl -s -o /tmp/couchbase-release-1.0-4-amd64.deb http://packages.couchbase.com/releases/couchbase-release/couchbase-release-1.0-4-amd64.deb \
     && dpkg -i /tmp/couchbase-release-1.0-4-amd64.deb \
@@ -99,10 +100,6 @@ RUN cd /tmp \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
 
-# fixes for dotnet
-    && curl -o /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu52_52.1-8ubuntu0.2_amd64.deb \
-    && dpkg -i /tmp/libicu52_52.1-8ubuntu0.2_amd64.deb \
-
 # add mariadb 10.2 repo
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.2/ubuntu xenial main' \
@@ -116,6 +113,11 @@ RUN cd /tmp \
     && add-apt-repository -y ppa:webupd8team/java \
 
     && apt-get update && apt-get -y --no-install-recommends upgrade \
+
+# add repo for dotnet
+    && curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg \
+    && mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg \
+    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-xenial-prod xenial main" > /etc/apt/sources.list.d/dotnetdev.list \
 
 # setting up java, mongodb tools, and nodejs
     && apt-get -y --no-install-recommends --allow-unauthenticated install oracle-java8-installer oracle-java8-set-default \
