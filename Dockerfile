@@ -39,6 +39,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
     && pecl install -f -a -l v8js \
     && pecl install -f pcs \
+    && pecl install -f igbinary \
     && pecl install -f couchbase \
     && pecl install -f imagick \
 
@@ -54,6 +55,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
     && pecl install -f -a -l v8js \
     && pecl install -f pcs \
+    && pecl install -f igbinary \
     && pecl install -f couchbase \
     && pecl install -f imagick \
 
@@ -69,6 +71,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
 
     && pecl install -f -a -l v8js \
     && pecl install -f pcs \
+    && pecl install -f igbinary \
     && pecl install -f couchbase \
     && pecl install -f imagick \
 
