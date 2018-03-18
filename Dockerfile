@@ -35,10 +35,7 @@ RUN cd /tmp \
     && pecl install -f imagick \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6/ && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6/ && make && make install \
-
     && rm -rf /tmp/* \
-
-# install for php 7.0
     && update-alternatives --set php /usr/bin/php7.0 \
     && update-alternatives --set phar /usr/bin/phar7.0 \
     && update-alternatives --set phar.phar /usr/bin/phar.phar7.0 \
@@ -46,7 +43,6 @@ RUN cd /tmp \
     && pecl config-set ext_dir /usr/lib/php/20151012 \
     && pecl config-set php_bin /usr/bin/php7.0 \
     && pecl config-set php_suffix 7.0 \
-
     && pecl install -f pcs \
     && pecl install -f igbinary \
     && pecl install -f couchbase \
