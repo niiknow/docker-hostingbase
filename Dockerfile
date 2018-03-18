@@ -89,7 +89,7 @@ RUN cd /tmp \
 
 # re-enable all default services
     && find /etc/service/ -name "down" -exec rm -f {} \; \
-    && exit 0
+    || true
 
 COPY rootfs/. /
 
