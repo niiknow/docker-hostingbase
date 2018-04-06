@@ -17,59 +17,17 @@ RUN cd /tmp \
        sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates libpcre3-dev re2c \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat libv8-6.6-dev pkg-config \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
-       php7.2-dev php-pear php-xml php7.2-xml php7.0-dev php7.0-xml php7.1-dev php7.1-xml \
+       php7.2-dev php-pear php-xml php7.2-xml php5.6-dev php5.6-xml php7.0-dev php7.0-xml php7.1-dev php7.1-xml \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
-    && dpkg --configure -a \
-    && update-alternatives --set php /usr/bin/php7.2 \
-    && update-alternatives --set phar /usr/bin/phar7.2 \
-    && update-alternatives --set phar.phar /usr/bin/phar.phar7.2 \
-    && pecl config-set php_ini /etc/php/7.2/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20170718 \
-    && pecl config-set php_bin /usr/bin/php7.2 \
-    && pecl config-set php_suffix 7.2 \
-    && pecl install -f pcs \
-    && pecl install -f igbinary \
-    && pecl install -f couchbase \
-    && pecl install -f imagick \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6/ && make && make install \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6/ && make && make install \
-    && rm -rf /tmp/* \
-    && update-alternatives --set php /usr/bin/php7.0 \
-    && update-alternatives --set phar /usr/bin/phar7.0 \
-    && update-alternatives --set phar.phar /usr/bin/phar.phar7.0 \
-    && pecl config-set php_ini /etc/php/7.0/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20151012 \
-    && pecl config-set php_bin /usr/bin/php7.0 \
-    && pecl config-set php_suffix 7.0 \
-    && pecl install -f pcs \
-    && pecl install -f igbinary \
-    && pecl install -f couchbase \
-    && pecl install -f imagick \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6/ && make && make install \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6/ && make && make install \
-    && rm -rf /tmp/* \
-    && update-alternatives --set php /usr/bin/php7.1 \
-    && update-alternatives --set phar /usr/bin/phar7.1 \
-    && update-alternatives --set phar.phar /usr/bin/phar.phar7.1 \
-    && pecl config-set php_ini /etc/php/7.1/cli/php.ini \
-    && pecl config-set ext_dir /usr/lib/php/20160303 \
-    && pecl config-set php_bin /usr/bin/php7.1 \
-    && pecl config-set php_suffix 7.1 \
-    && pecl install -f pcs \
-    && pecl install -f igbinary \
-    && pecl install -f couchbase \
-    && pecl install -f imagick \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6/ && make && make install \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6/ && make && make install \
+    && dpkg --configure -a && ls -la /opt/libv8-6.6 && pecl channel-update pecl.php.net \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
     && rm -rf /tmp/* \
-    && find /etc/service/ -name "down" -exec rm -f {} \; \
-    || true
+    && find /etc/service/ -name "down" -exec rm -f {} \;
 
 COPY rootfs/. /
 
@@ -77,6 +35,34 @@ RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
     && chmod +x /etc/service/incrond/run \
+    && /usr/bin/switch-php.sh 7.2 \
+    && pecl install -f --alldeps pcs \
+    && pecl install -f --alldeps igbinary \
+    && pecl install -f --alldeps couchbase \
+    && pecl install -f --alldeps imagick \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
+    && rm -rf /tmp/* \
+    && /usr/bin/switch-php.sh 5.6 \
+    && pecl install -f --alldeps pcs \
+    && pecl install -f --alldeps igbinary \
+    && pecl install -f --alldeps couchbase \
+    && pecl install -f --alldeps imagick \
+    && rm -rf /tmp/* \
+    && /usr/bin/switch-php.sh 7.0 \
+    && pecl install -f --alldeps pcs \
+    && pecl install -f --alldeps igbinary \
+    && pecl install -f --alldeps couchbase \
+    && pecl install -f --alldeps imagick \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
+    && rm -rf /tmp/* \
+    && /usr/bin/switch-php.sh 7.1 \
+    && pecl install -f --alldeps pcs \
+    && pecl install -f --alldeps igbinary \
+    && pecl install -f --alldeps couchbase \
+    && pecl install -f --alldeps imagick \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
