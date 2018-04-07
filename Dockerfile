@@ -36,33 +36,33 @@ RUN cd /tmp \
     && chmod +x /usr/bin/backup-creds.sh \
     && chmod +x /etc/service/incrond/run \
     && /usr/bin/switch-php.sh "7.2" \
-    && pecl install -f --alldeps pcs \
-    && pecl install -f --alldeps igbinary \
-    && pecl install -f --alldeps couchbase \
-    && pecl install -f --alldeps imagick \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/pcs > pcs.tgz && tar -xf pcs.tgz && cd pcs-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/igbinary > igbinary.tgz && tar -xf igbinary.tgz && cd igbinary-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/couchbase > couchbase.tgz && tar -xf couchbase.tgz && cd couchbase-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/imagick > imagick.tgz && tar -xf imagick.tgz && cd imagick-* && phpize && ./configure && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
     && rm -rf /tmp/* \
     && /usr/bin/switch-php.sh "5.6" \
-    && pecl install -f --alldeps pcs \
-    && pecl install -f --alldeps igbinary \
-    && pecl install -f --alldeps couchbase \
-    && pecl install -f --alldeps imagick \
+    && cd /tmp && curl -sL https://pecl.php.net/get/pcs > pcs.tgz && tar -xf pcs.tgz && cd pcs-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/igbinary > igbinary.tgz && tar -xf igbinary.tgz && cd igbinary-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/couchbase > couchbase.tgz && tar -xf couchbase.tgz && cd couchbase-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/imagick > imagick.tgz && tar -xf imagick.tgz && cd imagick-* && phpize && ./configure && make && make install \
     && rm -rf /tmp/* \
     && /usr/bin/switch-php.sh "7.0" \
-    && pecl install -f --alldeps pcs \
-    && pecl install -f --alldeps igbinary \
-    && pecl install -f --alldeps couchbase \
-    && pecl install -f --alldeps imagick \
+    && cd /tmp && curl -sL https://pecl.php.net/get/pcs > pcs.tgz && tar -xf pcs.tgz && cd pcs-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/igbinary > igbinary.tgz && tar -xf igbinary.tgz && cd igbinary-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/couchbase > couchbase.tgz && tar -xf couchbase.tgz && cd couchbase-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/imagick > imagick.tgz && tar -xf imagick.tgz && cd imagick-* && phpize && ./configure && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
     && rm -rf /tmp/* \
     && /usr/bin/switch-php.sh "7.1" \
-    && pecl install -f --alldeps pcs \
-    && pecl install -f --alldeps igbinary \
-    && pecl install -f --alldeps couchbase \
-    && pecl install -f --alldeps imagick \
-    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/pcs > pcs.tgz && tar -xf pcs.tgz && cd pcs-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/igbinary > igbinary.tgz && tar -xf igbinary.tgz && cd igbinary-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/couchbase > couchbase.tgz && tar -xf couchbase.tgz && cd couchbase-* && phpize && ./configure && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/imagick > imagick.tgz && tar -xf imagick.tgz && cd imagick-* && phpize && ./configure && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
+    && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
