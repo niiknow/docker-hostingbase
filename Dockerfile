@@ -35,7 +35,7 @@ RUN cd /tmp \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
     && chmod +x /etc/service/incrond/run \
-    && /usr/bin/switch-php.sh 7.2 \
+    && /usr/bin/switch-php.sh "7.2" \
     && pecl install -f --alldeps pcs \
     && pecl install -f --alldeps igbinary \
     && pecl install -f --alldeps couchbase \
@@ -43,20 +43,20 @@ RUN cd /tmp \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
     && rm -rf /tmp/* \
-    && /usr/bin/switch-php.sh 5.6 \
+    && /usr/bin/switch-php.sh "5.6" \
     && pecl install -f --alldeps pcs \
     && pecl install -f --alldeps igbinary \
     && pecl install -f --alldeps couchbase \
     && pecl install -f --alldeps imagick \
     && rm -rf /tmp/* \
-    && /usr/bin/switch-php.sh 7.0 \
+    && /usr/bin/switch-php.sh "7.0" \
     && pecl install -f --alldeps pcs \
     && pecl install -f --alldeps igbinary \
     && pecl install -f --alldeps couchbase \
     && pecl install -f --alldeps imagick \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
     && rm -rf /tmp/* \
-    && /usr/bin/switch-php.sh 7.1 \
+    && /usr/bin/switch-php.sh "7.1" \
     && pecl install -f --alldeps pcs \
     && pecl install -f --alldeps igbinary \
     && pecl install -f --alldeps couchbase \
