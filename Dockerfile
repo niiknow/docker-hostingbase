@@ -17,8 +17,8 @@ RUN cd /tmp \
        sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates libpcre3-dev re2c \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat libv8-6.6-dev pkg-config \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
-       php7.2-dev php-pear php-xml php7.2-xml php7.1-dev php7.1-xml \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
+       php-pear php-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a && ls -la /opt/libv8-6.6 && pecl channel-update pecl.php.net \
