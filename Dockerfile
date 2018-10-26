@@ -42,6 +42,7 @@ RUN cd /tmp \
     && cd /tmp && curl -sL https://pecl.php.net/get/imagick > imagick.tgz && tar -xf imagick.tgz && cd imagick-* && phpize && ./configure && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8js > v8js.tgz && tar -xf v8js.tgz && cd v8js-* && phpize && LDFLAGS="-lstdc++" ./configure --with-v8js=/opt/libv8-6.6 && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/v8 > v8.tgz && tar -xf v8.tgz && cd v8-* && phpize && ./configure --with-v8=/opt/libv8-6.6 && make && make install \
+    && rm -rf /tmp/* \
     && /usr/bin/switch-php.sh "7.2" \
     && cd /tmp && curl -sL https://pecl.php.net/get/pcs > pcs.tgz && tar -xf pcs.tgz && cd pcs-* && phpize && ./configure && make && make install \
     && cd /tmp && curl -sL https://pecl.php.net/get/igbinary > igbinary.tgz && tar -xf igbinary.tgz && cd igbinary-* && phpize && ./configure && make && make install \
