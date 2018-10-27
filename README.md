@@ -1,5 +1,5 @@
 # docker-hostingbase
-Based off https://github.com/phusion/baseimage-docker, this image contain base requirement for installation of various language and framework including: dotnet, python, and php.  Ideal base image for hosting panels.
+Based off https://github.com/phusion/baseimage-docker, this primarily build to include v8js and other common runtimes.
 
 ## sshd
 For convienience, sshd is enabled by default; just don't expose docker port 22 if you don't want to use sshd.
@@ -17,7 +17,7 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 4. couchbase and couchdb
 
 ## Note
-1.2.0 - update v8js build.  Remove things that can be defer later.
+1.2.1 - update v8js build.  Remove things that can be defer later.
 
 1.1.0 - 10/26/2018 remove support for php5.6 and php7.0 as both will be end of life (EOL) by the end of this year: http://php.net/supported-versions.php
 
