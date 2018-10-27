@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
 COPY rootfs/. /
 RUN cd /tmp \
-    && rsync --update -ahp --progress /opt/libv8-6.8/ /usr/local/ \
     && chmod +x /etc/service/sshd/run \
     && chmod +x /usr/bin/backup-creds.sh \
     && chmod +x /etc/service/incrond/run \
@@ -20,6 +19,7 @@ RUN cd /tmp \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
        php-pear php-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
+    && rsync --update -ahp --progress /opt/libv8-6.8/ /usr/local/ \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a \
