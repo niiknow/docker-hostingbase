@@ -18,7 +18,7 @@ RUN cd /tmp \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat pkg-config \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
-       php-pear php-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
+       php-pear php-xml php7.3-dev php7.3-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
     && rsync --update -ahp --progress /opt/libv8-6.8/ /usr/local/ \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
@@ -26,11 +26,17 @@ RUN cd /tmp \
     && pecl channel-update pecl.php.net \
     && /usr/bin/switch-php.sh "7.1" \
     && pecl -d php_suffix=7.1 install -f --alldeps pcs igbinary couchbase imagick v8 v8js \
+    && mkdir -p /mytmp/20160303 && rsync -ahp /usr/lib/php/20160303/ /mytmp/20160303/ \
     && rm -rf /tmp/* \
-    && mkdir -p /tmp/20160303 && rsync -ahp /usr/lib/php/20160303/ /tmp/20160303/ \
+    && /usr/bin/switch-php.sh "7.3" \
+    && pecl -d php_suffix=7.3 install -f --alldeps pcs igbinary couchbase imagick v8 \
+    && mkdir -p /mytmp/20180731 && rsync -ahp /usr/lib/php/20180731/ /mytmp/20180731/ \
+    && rm -rf /tmp/* \
     && /usr/bin/switch-php.sh "7.2" \
     && pecl -d php_suffix=7.2 install -f --alldeps pcs igbinary couchbase imagick v8 v8js \
-    && rsync -ahp /tmp/20160303/ /usr/lib/php/20160303/ \
+    && rsync -ahp /mytmp/20160303/ /usr/lib/php/20160303/ \
+    && rsync -ahp /mytmp/20180731/ /usr/lib/php/20180731/ \
+    && rm -rf /mytmp \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \

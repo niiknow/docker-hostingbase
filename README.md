@@ -5,18 +5,20 @@ Based off https://github.com/phusion/baseimage-docker, this primarily build to i
 For convienience, sshd is enabled by default; just don't expose docker port 22 if you don't want to use sshd.
 
 ## php files
-1. pecl install latest v8js for php7.1+
+1. pecl install latest v8 and v8js for php7.1+
 2. pecl install pcs and couchbase for couchdb
 3. imagemagick lib for php-imagick support
 4. composer
 
 ## add repositories
-1. php
+1. php 7.1+
 2. mariadb 10.2
 3. mongodb 3.6
 4. couchbase and couchdb
 
 ## Note
+1.3.0 - add php 7.3 build everything works except pecl php7.3 v8js build.  Note: use the alternative pecl php7.3 v8 module if you need v8 for php7.3 while waiting for pecl php7.3 v8js.
+
 1.2.1 - update v8js build.  Remove things that can be defer later.
 
 1.1.0 - 10/26/2018 remove support for php5.6 and php7.0 as both will be end of life (EOL) by the end of this year: http://php.net/supported-versions.php
