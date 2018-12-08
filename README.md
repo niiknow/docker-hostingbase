@@ -17,7 +17,7 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 4. couchbase and couchdb
 
 ## Note
-1.3.0 - add php 7.3 build everything works except pecl php7.3 v8js build.  Note: use the alternative pecl php7.3 v8 module if you need v8 for php7.3 while waiting for pecl php7.3 v8js.
+1.3.0 - add php 7.3 build.  Everything works except pecl v8js for php7.3 build.  Note: Use the alternative pecl v8 module for php7.3 if you need v8 for while waiting for php7.3 v8js pecl updates.
 
 1.2.1 - update v8js build.  Remove things that can be defer later.
 
