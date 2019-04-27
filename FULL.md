@@ -2,7 +2,7 @@
 Because full build of v8 takes too long causing docker hub to cancel build, we have to include v8 as part of this build.  Though, this would the script to use if one wish to build locally.
 
 ```
-FROM hyperknot/baseimage16:1.0.6 as v8builder
+FROM phusion/baseimage:0.10.2 as v8builder
 ENV V8_VERSION=6.8.275.32
 RUN apt-get update && \
     apt-get install -y \
@@ -22,7 +22,7 @@ RUN apt-get update && \
     tools/dev/v8gen.py -vv x64.release -- is_component_build=true && \
     ninja -C out.gn/x64.release/
 
-FROM hyperknot/baseimage16:1.0.6
+FROM phusion/baseimage:0.10.2
 LABEL maintainer="noogen <friends@niiknow.org>"
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker

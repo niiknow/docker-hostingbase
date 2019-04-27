@@ -1,4 +1,4 @@
-FROM hyperknot/baseimage16:1.0.6
+FROM phusion/baseimage:0.10.2
 LABEL maintainer="noogen <friends@niiknow.org>"
 ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 TERM=xterm container=docker
@@ -41,7 +41,7 @@ RUN cd /tmp \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.2/ubuntu xenial main' \
-    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5 \
+    && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 91FA4AD5 \
     && echo 'deb [arch=amd64,i386] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse' \
         | sudo tee /etc/apt/sources.list.d/mongodb-3.6.list \
     && apt-get update && apt-get -y --no-install-recommends upgrade \
