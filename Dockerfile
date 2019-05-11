@@ -24,6 +24,10 @@ RUN cd /tmp \
     && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a \
     && pecl channel-update pecl.php.net \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -f /core \
     && /usr/bin/switch-php.sh "7.1" \
     && pecl -d php_suffix=7.1 install -f --alldeps pcs igbinary couchbase imagick \
     && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
