@@ -19,21 +19,36 @@ RUN cd /tmp \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
        php-pear php-xml php7.3-dev php7.3-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
-    && rsync --update -ahp --progress /opt/libv8-6.8/ /usr/local/ \
+    && rsync --update -ahp --progress /opt/libv8-7.4/ /usr/local/ \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
     && dpkg --configure -a \
     && pecl channel-update pecl.php.net \
     && /usr/bin/switch-php.sh "7.1" \
-    && pecl -d php_suffix=7.1 install -f --alldeps pcs igbinary couchbase imagick v8 v8js \
+    && pecl -d php_suffix=7.1 install -f --alldeps pcs igbinary couchbase imagick \
+    && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
+    && cd /tmp/v8js \
+    && git checkout php7 && phpize7.1 \
+    && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-7.4 \
+    && make all test install \
     && mkdir -p /mytmp/20160303 && rsync -ahp /usr/lib/php/20160303/ /mytmp/20160303/ \
-    && rm -rf /tmp/* \
-    && /usr/bin/switch-php.sh "7.3" \
-    && pecl -d php_suffix=7.3 install -f --alldeps pcs igbinary couchbase imagick v8 \
+    && rm -rf /tmp/*
+RUN /usr/bin/switch-php.sh "7.3" \
+    && pecl -d php_suffix=7.3 install -f --alldeps pcs igbinary couchbase imagick \
+    && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
+    && cd /tmp/v8js \
+    && git checkout php7 && phpize7.3 \
+    && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-7.4 \
+    && make all test install \
     && mkdir -p /mytmp/20180731 && rsync -ahp /usr/lib/php/20180731/ /mytmp/20180731/ \
-    && rm -rf /tmp/* \
-    && /usr/bin/switch-php.sh "7.2" \
-    && pecl -d php_suffix=7.2 install -f --alldeps pcs igbinary couchbase imagick v8 v8js \
+    && rm -rf /tmp/*
+RUN /usr/bin/switch-php.sh "7.2" \
+    && pecl -d php_suffix=7.2 install -f --alldeps pcs igbinary couchbase imagick \
+    && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
+    && cd /tmp/v8js \
+    && git checkout php7 && phpize7.2 \
+    && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-7.4 \
+    && make all test install \
     && rsync -ahp /mytmp/20160303/ /usr/lib/php/20160303/ \
     && rsync -ahp /mytmp/20180731/ /usr/lib/php/20180731/ \
     && rm -rf /mytmp \
