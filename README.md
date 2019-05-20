@@ -8,7 +8,6 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 1. pecl install latest v8 and v8js for php7.1+
 2. pecl install pcs and couchbase for couchdb
 3. imagemagick lib for php-imagick support
-4. composer
 
 ## add repositories
 1. php 7.1+
@@ -17,6 +16,8 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 4. couchbase and couchdb
 
 ## Note
+1.4.2 - remove composer
+
 1.4.0 - removed v8 now that we can build v8js in all versions of php
 
 1.3.0 - add php 7.3 build.  Everything works except pecl v8js for php7.3 build.  Note: Use the alternative pecl v8 module for php7.3 if you need v8 for while waiting for php7.3 v8js pecl updates.
