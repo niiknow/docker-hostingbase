@@ -12,13 +12,13 @@ RUN cd /tmp \
     && dpkg -i /tmp/couchbase-release-1.0-4-amd64.deb \
     && add-apt-repository -y ppa:couchdb/stable \
     && apt-add-repository -y ppa:ondrej/php \
-    && apt-get update && apt-get -y --no-install-recommends upgrade \
+    && apt-get update && apt-get -yf -o Dpkg::Options::="--force-confdef" --no-install-recommends upgrade \
     && apt-get -y --no-install-recommends --allow-unauthenticated install wget curl unzip nano vim rsync apt-transport-https openssh-client openssh-server \
        sudo tar git apt-utils software-properties-common build-essential python-dev tcl openssl libpcre3 dnsmasq ca-certificates libpcre3-dev re2c \
        libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev libmagickwand-dev procps imagemagick netcat pkg-config \
        mcrypt pwgen language-pack-en-base libicu-dev g++ cpp libglib2.0-dev incron libcouchbase-dev libcouchbase2-libevent \
        libc6 libcurl3 libgcc1 libgssapi-krb5-2 liblttng-ust0 libssl1.0.0 libstdc++6 libunwind8 libuuid1 zlib1g \
-       php-pear php-xml php7.3-dev php7.3-xml php7.2-dev php7.2-xml php7.1-dev php7.1-xml \
+       php-pear php-xml php7.3-dev php7.3-xml php7.2-dev php7.2-xml php7.4-dev php7.4-xml \
     && rsync --update -ahp --progress /opt/libv8-7.4/ /usr/local/ \
     && systemctl disable incron \
     && echo 'root' >> /etc/incron.allow \
@@ -28,14 +28,10 @@ RUN cd /tmp \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
-    && /usr/bin/switch-php.sh "7.1" \
-    && pecl -d php_suffix=7.1 install -f --alldeps pcs igbinary couchbase imagick \
-    && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
-    && cd /tmp/v8js \
-    && git checkout php7 && phpize7.1 \
-    && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-7.4 \
-    && make all test install \
-    && mkdir -p /mytmp/20160303 && rsync -ahp /usr/lib/php/20160303/ /mytmp/20160303/ \
+    && ls -la /usr/lib/php \
+    && /usr/bin/switch-php.sh "7.4" \
+    && pecl -d php_suffix=7.4 install -f --alldeps imagick \
+    && mkdir -p /mytmp/20190902 && rsync -ahp /usr/lib/php/20190902/ /mytmp/20190902/ \
     && rm -rf /tmp/*
 RUN /usr/bin/switch-php.sh "7.3" \
     && pecl -d php_suffix=7.3 install -f --alldeps pcs igbinary couchbase imagick \
@@ -53,7 +49,7 @@ RUN /usr/bin/switch-php.sh "7.2" \
     && git checkout php7 && phpize7.2 \
     && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-7.4 \
     && make all test install \
-    && rsync -ahp /mytmp/20160303/ /usr/lib/php/20160303/ \
+    && rsync -ahp /mytmp/20190902/ /usr/lib/php/20190902/ \
     && rsync -ahp /mytmp/20180731/ /usr/lib/php/20180731/ \
     && rm -rf /mytmp \
     && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
