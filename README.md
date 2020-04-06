@@ -16,6 +16,8 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 4. couchbase and couchdb
 
 ## Note
+1.5.1 - This container will go into EOL on April 2021 following Ubuntu 16.04 LTS lifecycle policy.  At best, I may start a new branch/repo for Ubuntu 20.04 LTS.
+
 1.5.0 - removed deprecated php7.1 and add php7.4 - note that, pcs, igbinary, couchbase, and v8js are not yet compatible for php7.4
 
 1.4.2 - remove composer

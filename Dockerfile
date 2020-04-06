@@ -28,9 +28,9 @@ RUN cd /tmp \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
-    && ls -la /usr/lib/php \
-    && /usr/bin/switch-php.sh "7.4" \
-    && pecl -d php_suffix=7.4 install -f --alldeps imagick \
+    && ls -la /usr/lib/php
+Run /usr/bin/switch-php.sh "7.4" \
+    && pecl -d php_suffix=7.4 install -f --alldeps igbinary couchbase imagick \
     && mkdir -p /mytmp/20190902 && rsync -ahp /usr/lib/php/20190902/ /mytmp/20190902/ \
     && rm -rf /tmp/*
 RUN /usr/bin/switch-php.sh "7.3" \
@@ -51,8 +51,8 @@ RUN /usr/bin/switch-php.sh "7.2" \
     && make all test install \
     && rsync -ahp /mytmp/20190902/ /usr/lib/php/20190902/ \
     && rsync -ahp /mytmp/20180731/ /usr/lib/php/20180731/ \
-    && rm -rf /mytmp \
-    && curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
+    && rm -rf /mytmp
+RUN curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net/109052632/python-support_1.0.15_all.deb \
     && dpkg -i /tmp/python-support_1.0.15_all.deb \
     && apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 \
     && add-apt-repository 'deb [arch=amd64,i386] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.2/ubuntu xenial main' \
