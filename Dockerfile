@@ -29,7 +29,7 @@ RUN cd /tmp \
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
     && ls -la /usr/lib/php
-Run /usr/bin/switch-php.sh "7.4" \
+RUN /usr/bin/switch-php.sh "7.4" \
     && pecl -d php_suffix=7.4 install -f --alldeps igbinary couchbase imagick \
     && mkdir -p /mytmp/20190902 && rsync -ahp /usr/lib/php/20190902/ /mytmp/20190902/ \
     && rm -rf /tmp/*
