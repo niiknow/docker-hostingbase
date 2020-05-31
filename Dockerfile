@@ -31,6 +31,11 @@ RUN cd /tmp \
     && ls -la /usr/lib/php
 RUN /usr/bin/switch-php.sh "7.4" \
     && pecl -d php_suffix=7.4 install -f --alldeps igbinary couchbase imagick \
+    && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
+    && cd /tmp/v8js \
+    && git checkout php7 && phpize7.4 \
+    && ./configure LDFLAGS="-lstdc++" CFLAGS="-fsanitize=address -g -O0" CXXFLAGS="-fsanitize=address -g -O0" --with-v8js=/opt/libv8-7.4 \
+    && make all test install \
     && mkdir -p /mytmp/20190902 && rsync -ahp /usr/lib/php/20190902/ /mytmp/20190902/ \
     && rm -rf /tmp/*
 RUN /usr/bin/switch-php.sh "7.3" \
@@ -68,7 +73,7 @@ RUN curl -s -o /tmp/python-support_1.0.15_all.deb https://launchpadlibrarian.net
     && rm -rf /var/lib/apt/lists/* \
     && rm -f /core \
     && rm -rf /tmp/* \
-    && find /etc/service/ -name "down" -exec rm -f {} \;
+    && find /etc/service/ -name "down" -exec rm -f {} \; 
 
 ENV DEBIAN_FRONTEND=teletype
 

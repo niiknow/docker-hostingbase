@@ -1,5 +1,5 @@
 FROM phusion/baseimage:0.10.2
-ENV V8_VERSION=7.4.288.21
+ENV V8_VERSION=7.8.279.23
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
