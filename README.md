@@ -16,7 +16,7 @@ For convienience, sshd is enabled by default; just don't expose docker port 22 i
 4. couchbase and couchdb
 
 ## Note
-1.6.0 - remove php 7.2 and add php 8.0, remove `make test` for phpv8js for php7.4 until it is fixed.  - note that couchbase and v8js are not yet compatible for php8.0
+1.6.1 - remove php 7.2 and add php8.0 - note that couchbase and v8js are not yet compatible for php8.0
 
 1.5.1 - This container will go into EOL on April 2021 following Ubuntu 16.04 LTS lifecycle policy.  At best, I may start a new branch/repo for Ubuntu 20.04 LTS.
 

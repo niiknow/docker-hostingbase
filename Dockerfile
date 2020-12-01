@@ -35,12 +35,13 @@ RUN /usr/bin/switch-php.sh "8.0" \
     && mkdir -p /mytmp/20200930 && rsync -ahp /usr/lib/php/20200930/ /mytmp/20200930/ \
     && rm -rf /tmp/*
 RUN /usr/bin/switch-php.sh "7.4" \
-    && pecl -d php_suffix=7.4 install -f --alldeps igbinary couchbase imagick \
+    && pecl -d php_suffix=7.4 install -f --alldeps pcs igbinary couchbase imagick \
     && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
     && cd /tmp/v8js \
     && git checkout php7 && phpize7.4 \
-    && ./configure --with-v8js=/opt/libv8-$V8VER/  CFLAGS="-fsanitize=address -g -O0" CXXFLAGS="-fsanitize=address -g -O0" CPPFLAGS="$([ $( echo "$V8VER" | cut -c 1-1 ) -ge 8 ] && echo "-DV8_COMPRESS_POINTERS" || echo "")" \
-    && make all install \
+    && sed -i -e '132s/retval/object/g' v8js_v8object_class.cc \
+    && ./configure --with-v8js=/opt/libv8-$V8VER/ LDFLAGS="-lstdc++" \
+    && make all test install \
     && mkdir -p /mytmp/20190902 && rsync -ahp /usr/lib/php/20190902/ /mytmp/20190902/ \
     && rm -rf /tmp/*
 RUN /usr/bin/switch-php.sh "7.3" \
@@ -48,7 +49,7 @@ RUN /usr/bin/switch-php.sh "7.3" \
     && git clone https://github.com/phpv8/v8js.git /tmp/v8js \
     && cd /tmp/v8js \
     && git checkout php7 && phpize7.3 \
-    && ./configure LDFLAGS="-lstdc++" --with-v8js=/opt/libv8-$V8VER \
+    && ./configure --with-v8js=/opt/libv8-$V8VER/ LDFLAGS="-lstdc++" \
     && make all test install \
     && rsync -ahp /mytmp/20200930/ /usr/lib/php/20200930/ \
     && rsync -ahp /mytmp/20190902/ /usr/lib/php/20190902/ \
